@@ -1,0 +1,61 @@
+< THE SYMBOL TABLE >  ProyectoDeEnsambladorChingon.exe  --  emu8086 assembler version: 4.08 
+===================================================================================================
+Name                     	Offset    	Size      	Type      	Segment   
+===================================================================================================
+DATA                     	00000     	-5        	SEGMENT   	(ITSELF)  
+NEW_LINE                 	00000     	1         	VAR       	data      
+GAME_DRAW                	00003     	1         	VAR       	data      
+GAME_POINTER             	00019     	1         	VAR       	data      
+WIN_FLAG                 	00022     	1         	VAR       	data      
+PLAYER                   	00023     	1         	VAR       	data      
+GAME_OVER_MESSAGE        	00025     	1         	VAR       	data      
+GAME_START_MESSAGE       	00034     	1         	VAR       	data      
+PLAYER_MESSAGE           	00045     	1         	VAR       	data      
+WIN_MESSAGE              	0004D     	1         	VAR       	data      
+TYPE_MESSAGE             	00053     	1         	VAR       	data      
+STACK                    	00007     	-5        	SEGMENT   	(ITSELF)  
+EXTRA                    	00017     	-5        	SEGMENT   	(ITSELF)  
+CODE                     	00017     	-5        	SEGMENT   	(ITSELF)  
+START                    	00000     	-1        	LABEL     	code      
+MAIN_LOOP                	0000D     	-1        	LABEL     	code      
+REGRESAR                 	00043     	-1        	LABEL     	code      
+MAQUINA                  	00043     	-1        	LABEL     	code      
+CHANGE_PLAYER            	00065     	-1        	LABEL     	code      
+EVAL                     	0006D     	-1        	LABEL     	code      
+INICIO                   	0006D     	-1        	LABEL     	code      
+ALEATORIO                	0007D     	-1        	LABEL     	code      
+UPDATE_DRAW              	00095     	-1        	LABEL     	code      
+DRAW_X                   	000A9     	-1        	LABEL     	code      
+DRAW_O                   	000AD     	-1        	LABEL     	code      
+UPDATE                   	000B1     	-1        	LABEL     	code      
+CHECK                    	000B5     	-1        	LABEL     	code      
+CHECK_LINE               	000B9     	-1        	LABEL     	code      
+CHECK_LINE_LOOP          	000BC     	-1        	LABEL     	code      
+FIRST_LINE               	000CF     	-1        	LABEL     	code      
+SECOND_LINE              	000D4     	-1        	LABEL     	code      
+THIRD_LINE               	000D9     	-1        	LABEL     	code      
+DO_CHECK_LINE            	000DE     	-1        	LABEL     	code      
+CHECK_COLUMN             	00103     	-1        	LABEL     	code      
+CHECK_COLUMN_LOOP        	00106     	-1        	LABEL     	code      
+FIRST_COLUMN             	00119     	-1        	LABEL     	code      
+SECOND_COLUMN            	0011E     	-1        	LABEL     	code      
+THIRD_COLUMN             	00123     	-1        	LABEL     	code      
+DO_CHECK_COLUMN          	00128     	-1        	LABEL     	code      
+CHECK_DIAGONAL           	00151     	-1        	LABEL     	code      
+CHECK_DIAGONAL_LOOP      	00154     	-1        	LABEL     	code      
+FIRST_DIAGONAL           	0015F     	-1        	LABEL     	code      
+SECOND_DIAGONAL          	00167     	-1        	LABEL     	code      
+DO_CHECK_DIAGONAL        	0016F     	-1        	LABEL     	code      
+GAME_OVER                	00196     	-1        	LABEL     	code      
+SET_GAME_POINTER         	001CB     	-1        	LABEL     	code      
+LOOP_1                   	001D4     	-1        	LABEL     	code      
+ADD_1                    	001E0     	-1        	LABEL     	code      
+ADD_2                    	001E5     	-1        	LABEL     	code      
+PRINT                    	001EF     	-1        	LABEL     	code      
+CLEAR_SCREEN             	001F4     	-1        	LABEL     	code      
+READ_KEYBOARD            	001FD     	-1        	LABEL     	code      
+FIM                      	00202     	-1        	LABEL     	code      
+===================================================================================================
+[ 6/8/2022  --  7:56:34 PM ] 
+< END >
+ 

@@ -1,0 +1,477 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+ProyectoDeEnsambladorChingon.exe -- emu8086 assembler version: 4.08  
+ 
+[ 6/8/2022  --  7:56:34 PM ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       
+[   2]        :                                       ; 8086 Assembly, emu8086
+[   3]        :                                       
+[   4]        :                                       data segment
+[   5]    0000: 0D 0A 24                              new_line db 13, 10, "$"
+[   6]        :                                       
+[   7]    0003: 5F 7C 5F 7C 5F 0D 0A                  game_draw db "_|_|_", 13, 10
+[   8]    000A: 5F 7C 5F 7C 5F 0D 0A                  db "_|_|_", 13, 10
+[   9]    0011: 5F 7C 5F 7C 5F 0D 0A 24               db "_|_|_", 13, 10, "$"
+[  10]        :                                       
+[  11]    0019: 00 00 00 00 00 00 00 00 00            game_pointer db 9 DUP(?)
+[  12]        :                                       
+[  13]    0022: 00                                    win_flag db 0
+[  14]    0023: 30 24                                 player db "0$"
+[  15]        :                                       
+[  16]    0025: 46 49 4E 20 44 45 20 4A 55 45 47 4F   game_over_message db "FIN DE JUEGO", 13, 10, "$"
+                0D 0A 24                            
+[  17]    0034: 4A 55 45 47 4F 20 44 45 4C 20 47 41   game_start_message db "JUEGO DEL GATO", 13, 10, "$"
+                54 4F 0D 0A 24                      
+[  18]    0045: 50 4C 41 59 45 52 20 24               player_message db "PLAYER $"
+[  19]    004D: 20 57 49 4E 21 24                     win_message db " WIN!$"
+[  20]    0053: 45 53 43 52 49 42 45 20 4C 41 20 50   type_message db "ESCRIBE LA POSICION [1-9]: $"
+                4F 53 49 43 49 4F 4E 20 5B 31 2D 39 
+                5D 3A 20 24                         
+[  21]        :                                       ends
+[  22]        :                                       
+[  23]        :                                       stack segment
+[  24]    0070: 00 00 00 00 00 00 00 00 00 00 00 00   dw   128  dup(?)
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00 00 00 00 00 00 00 00 00 
+                00 00 00 00                         
+[  25]        :                                       ends
+[  26]        :                                       
+[  27]        :                                       extra segment
+[  28]        :                                       
+[  29]        :                                       ends
+[  30]        :                                       
+[  31]        :                                       code segment
+[  32]    0170:                                       start:
+[  33]        :                                       ; set segment registers
+[  34]    0170: B8 00 00                              mov     ax, data
+[  35]    0173: 8E D8                                 mov     ds, ax
+[  36]    0175: B8 17 00                              mov     ax, extra
+[  37]    0178: 8E C0                                 mov     es, ax
+[  38]        :                                       
+[  39]        :                                       ; game start
+[  40]    017A: E8 BE 01                              call    set_game_pointer
+[  41]        :                                       
+[  42]    017D:                                       main_loop:
+[  43]    017D: E8 E4 01                              call    clear_screen
+[  44]        :                                       
+[  45]    0180: BA 34 00                              lea     dx, game_start_message
+[  46]    0183: E8 D9 01                              call    print
+[  47]        :                                       
+[  48]    0186: BA 00 00                              lea     dx, new_line
+[  49]    0189: E8 D3 01                              call    print
+[  50]        :                                       
+[  51]    018C: BA 45 00                              lea     dx, player_message
+[  52]    018F: E8 CD 01                              call    print
+[  53]    0192: BA 23 00                              lea     dx, player
+[  54]    0195: E8 C7 01                              call    print
+[  55]        :                                       
+[  56]    0198: BA 00 00                              lea     dx, new_line
+[  57]    019B: E8 C1 01                              call    print
+[  58]        :                                       
+[  59]    019E: BA 03 00                              lea     dx, game_draw
+[  60]    01A1: E8 BB 01                              call    print
+[  61]        :                                       
+[  62]    01A4: BA 00 00                              lea     dx, new_line
+[  63]    01A7: E8 B5 01                              call    print
+[  64]        :                                       
+[  65]    01AA: BA 53 00                              lea     dx, type_message
+[  66]    01AD: E8 AF 01                              call    print
+[  67]        :                                       
+[  68]        :                                       ; read draw position
+[  69]    01B0: E8 BA 01                              call    read_keyboard
+[  70]    01B3:                                       regresar:
+[  71]    01B3:                                       maquina:
+[  72]        :                                       
+[  73]        :                                       ; calculate draw position
+[  74]    01B3: 2C 31                                 sub     al, 49
+[  75]    01B5: B7 00                                 mov     bh, 0
+[  76]    01B7: 8A D8                                 mov     bl, al
+[  77]        :                                       
+[  78]    01B9: E8 49 00                              call    update_draw
+[  79]        :                                       
+[  80]    01BC: E8 66 00                              call    check
+[  81]        :                                       
+[  82]        :                                       ; check if game ends
+[  83]    01BF: 80 3E 22 00 01                        cmp     win_flag, 1
+[  84]    01C4: 75 03 E9 3D 01                        je      game_over
+[  85]        :                                       
+[  86]    01C9: E8 09 00                              call    change_player
+[  87]    01CC: 80 3E 23 00 01                        cmp     player, 1
+[  88]    01D1: 7A 1A                                 jp      aleatorio
+[  89]    01D3: EB A8                                 jmp     main_loop
+[  90]        :                                       
+[  91]        :                                       
+[  92]    01D5:                                       change_player:
+[  93]    01D5: BE 23 00                              lea     si, player
+[  94]    01D8: 3E 80 34 01                           xor     ds:[si], 1
+[  95]        :                                       
+[  96]    01DC: C3                                    ret
+[  97]    01DD:                                       eval:
+[  98]    01DD:                                       inicio:
+[  99]    01DD: 8A 44 03                              mov al,game_draw[si]
+[ 100]    01E0: 3C 78                                 cmp al,'x'
+[ 101]    01E2: 3C 6F                                 cmp al,'o'
+[ 102]    01E4: 7A 07                                 jp  aleatorio
+[ 103]    01E6: 83 C6 01                              add si,1
+[ 104]    01E9: E2 F2                                 loop  inicio
+[ 105]    01EB: EB C6                                 jmp regresar
+[ 106]    01ED:                                       aleatorio:
+[ 107]        :                                       
+[ 108]    01ED: B4 00                                 Mov ah,00h
+[ 109]    01EF: CD 1A                                 int 1ah
+[ 110]        :                                       
+[ 111]    01F1: 8B C2                                 mov ax,dx
+[ 112]    01F3: 33 D2                                 xor dx,dx
+[ 113]    01F5: B9 08 00                              mov cx,8
+[ 114]    01F8: F7 F1                                 div cx
+[ 115]        :                                       
+[ 116]    01FA: 80 C2 31                              add dl,'1'
+[ 117]    01FD: B4 02                                 mov ah,2h
+[ 118]    01FF: CD 21                                 int 21h
+[ 119]    0201: EB B0                                 jmp maquina
+[ 120]    0203: EB D8                                 jmp eval
+[ 121]        :                                       
+[ 122]    0205:                                       update_draw:
+[ 123]    0205: 8A 5F 19                              mov     bl, game_pointer[bx]
+[ 124]    0208: B7 00                                 mov     bh, 0
+[ 125]        :                                       
+[ 126]    020A: BE 23 00                              lea     si, player
+[ 127]        :                                       
+[ 128]    020D: 3E 80 3C 30                           cmp     ds:[si], "0"
+[ 129]    0211: 74 06                                 je      draw_x
+[ 130]        :                                       
+[ 131]    0213: 3E 80 3C 31                           cmp     ds:[si], "1"
+[ 132]    0217: 74 04                                 je      draw_o
+[ 133]        :                                       
+[ 134]    0219:                                       draw_x:
+[ 135]    0219: B1 78                                 mov     cl, "x"
+[ 136]    021B: EB 04                                 jmp     update
+[ 137]        :                                       
+[ 138]    021D:                                       draw_o:
+[ 139]    021D: B1 6F                                 mov     cl, "o"
+[ 140]    021F: EB 00                                 jmp     update
+[ 141]        :                                       
+[ 142]    0221:                                       update:
+[ 143]    0221: 3E 88 0F                              mov     ds:[bx], cl
+[ 144]        :                                       
+[ 145]    0224: C3                                    ret
+[ 146]        :                                       
+[ 147]        :                                       
+[ 148]    0225:                                       check:
+[ 149]    0225: E8 01 00                              call    check_line
+[ 150]    0228: C3                                    ret
+[ 151]        :                                       
+[ 152]        :                                       
+[ 153]    0229:                                       check_line:
+[ 154]    0229: B9 00 00                              mov     cx, 0
+[ 155]        :                                       
+[ 156]    022C:                                       check_line_loop:
+[ 157]    022C: 83 F9 00                              cmp     cx, 0
+[ 158]    022F: 74 0E                                 je      first_line
+[ 159]        :                                       
+[ 160]    0231: 83 F9 01                              cmp     cx, 1
+[ 161]    0234: 74 0E                                 je      second_line
+[ 162]        :                                       
+[ 163]    0236: 83 F9 02                              cmp     cx, 2
+[ 164]    0239: 74 0E                                 je      third_line
+[ 165]        :                                       
+[ 166]    023B: E8 35 00                              call    check_column
+[ 167]    023E: C3                                    ret
+[ 168]        :                                       
+[ 169]    023F:                                       first_line:
+[ 170]    023F: BE 00 00                              mov     si, 0
+[ 171]    0242: EB 0A                                 jmp     do_check_line
+[ 172]        :                                       
+[ 173]    0244:                                       second_line:
+[ 174]    0244: BE 03 00                              mov     si, 3
+[ 175]    0247: EB 05                                 jmp     do_check_line
+[ 176]        :                                       
+[ 177]    0249:                                       third_line:
+[ 178]    0249: BE 06 00                              mov     si, 6
+[ 179]    024C: EB 00                                 jmp     do_check_line
+[ 180]        :                                       
+[ 181]    024E:                                       do_check_line:
+[ 182]    024E: 41                                    inc     cx
+[ 183]        :                                       
+[ 184]    024F: B7 00                                 mov     bh, 0
+[ 185]    0251: 8A 5C 19                              mov     bl, game_pointer[si]
+[ 186]    0254: 3E 8A 07                              mov     al, ds:[bx]
+[ 187]    0257: 3C 5F                                 cmp     al, "_"
+[ 188]    0259: 74 D1                                 je      check_line_loop
+[ 189]        :                                       
+[ 190]    025B: 46                                    inc     si
+[ 191]    025C: 8A 5C 19                              mov     bl, game_pointer[si]
+[ 192]    025F: 3E 3A 07                              cmp     al, ds:[bx]
+[ 193]    0262: 75 C8                                 jne     check_line_loop
+[ 194]        :                                       
+[ 195]    0264: 46                                    inc     si
+[ 196]    0265: 8A 5C 19                              mov     bl, game_pointer[si]
+[ 197]    0268: 3E 3A 07                              cmp     al, ds:[bx]
+[ 198]    026B: 75 BF                                 jne     check_line_loop
+[ 199]        :                                       
+[ 200]        :                                       
+[ 201]    026D: C6 06 22 00 01                        mov     win_flag, 1
+[ 202]    0272: C3                                    ret
+[ 203]        :                                       
+[ 204]        :                                       
+[ 205]        :                                       
+[ 206]    0273:                                       check_column:
+[ 207]    0273: B9 00 00                              mov     cx, 0
+[ 208]        :                                       
+[ 209]    0276:                                       check_column_loop:
+[ 210]    0276: 83 F9 00                              cmp     cx, 0
+[ 211]    0279: 74 0E                                 je      first_column
+[ 212]        :                                       
+[ 213]    027B: 83 F9 01                              cmp     cx, 1
+[ 214]    027E: 74 0E                                 je      second_column
+[ 215]        :                                       
+[ 216]    0280: 83 F9 02                              cmp     cx, 2
+[ 217]    0283: 74 0E                                 je      third_column
+[ 218]        :                                       
+[ 219]    0285: E8 39 00                              call    check_diagonal
+[ 220]    0288: C3                                    ret
+[ 221]        :                                       
+[ 222]    0289:                                       first_column:
+[ 223]    0289: BE 00 00                              mov     si, 0
+[ 224]    028C: EB 0A                                 jmp     do_check_column
+[ 225]        :                                       
+[ 226]    028E:                                       second_column:
+[ 227]    028E: BE 01 00                              mov     si, 1
+[ 228]    0291: EB 05                                 jmp     do_check_column
+[ 229]        :                                       
+[ 230]    0293:                                       third_column:
+[ 231]    0293: BE 02 00                              mov     si, 2
+[ 232]    0296: EB 00                                 jmp     do_check_column
+[ 233]        :                                       
+[ 234]    0298:                                       do_check_column:
+[ 235]    0298: 41                                    inc     cx
+[ 236]        :                                       
+[ 237]    0299: B7 00                                 mov     bh, 0
+[ 238]    029B: 8A 5C 19                              mov     bl, game_pointer[si]
+[ 239]    029E: 3E 8A 07                              mov     al, ds:[bx]
+[ 240]    02A1: 3C 5F                                 cmp     al, "_"
+[ 241]    02A3: 74 D1                                 je      check_column_loop
+[ 242]        :                                       
+[ 243]    02A5: 83 C6 03                              add     si, 3
+[ 244]    02A8: 8A 5C 19                              mov     bl, game_pointer[si]
+[ 245]    02AB: 3E 3A 07                              cmp     al, ds:[bx]
+[ 246]    02AE: 75 C6                                 jne     check_column_loop
+[ 247]        :                                       
+[ 248]    02B0: 83 C6 03                              add     si, 3
+[ 249]    02B3: 8A 5C 19                              mov     bl, game_pointer[si]
+[ 250]    02B6: 3E 3A 07                              cmp     al, ds:[bx]
+[ 251]    02B9: 75 BB                                 jne     check_column_loop
+[ 252]        :                                       
+[ 253]        :                                       
+[ 254]    02BB: C6 06 22 00 01                        mov     win_flag, 1
+[ 255]    02C0: C3                                    ret
+[ 256]        :                                       
+[ 257]        :                                       
+[ 258]    02C1:                                       check_diagonal:
+[ 259]    02C1: B9 00 00                              mov     cx, 0
+[ 260]        :                                       
+[ 261]    02C4:                                       check_diagonal_loop:
+[ 262]    02C4: 83 F9 00                              cmp     cx, 0
+[ 263]    02C7: 74 06                                 je      first_diagonal
+[ 264]        :                                       
+[ 265]    02C9: 83 F9 01                              cmp     cx, 1
+[ 266]    02CC: 74 09                                 je      second_diagonal
+[ 267]        :                                       
+[ 268]    02CE: C3                                    ret
+[ 269]        :                                       
+[ 270]    02CF:                                       first_diagonal:
+[ 271]    02CF: BE 00 00                              mov     si, 0
+[ 272]    02D2: BA 04 00                              mov     dx, 4 ;tamanho do pulo
+[ 273]    02D5: EB 08                                 jmp     do_check_diagonal
+[ 274]        :                                       
+[ 275]    02D7:                                       second_diagonal:
+[ 276]    02D7: BE 02 00                              mov     si, 2
+[ 277]    02DA: BA 02 00                              mov     dx, 2
+[ 278]    02DD: EB 00                                 jmp     do_check_diagonal
+[ 279]        :                                       
+[ 280]    02DF:                                       do_check_diagonal:
+[ 281]    02DF: 41                                    inc     cx
+[ 282]        :                                       
+[ 283]    02E0: B7 00                                 mov     bh, 0
+[ 284]    02E2: 8A 5C 19                              mov     bl, game_pointer[si]
+[ 285]    02E5: 3E 8A 07                              mov     al, ds:[bx]
+[ 286]    02E8: 3C 5F                                 cmp     al, "_"
+[ 287]    02EA: 74 D8                                 je      check_diagonal_loop
+[ 288]        :                                       
+[ 289]    02EC: 03 F2                                 add     si, dx
+[ 290]    02EE: 8A 5C 19                              mov     bl, game_pointer[si]
+[ 291]    02F1: 3E 3A 07                              cmp     al, ds:[bx]
+[ 292]    02F4: 75 CE                                 jne     check_diagonal_loop
+[ 293]        :                                       
+[ 294]    02F6: 03 F2                                 add     si, dx
+[ 295]    02F8: 8A 5C 19                              mov     bl, game_pointer[si]
+[ 296]    02FB: 3E 3A 07                              cmp     al, ds:[bx]
+[ 297]    02FE: 75 C4                                 jne     check_diagonal_loop
+[ 298]        :                                       
+[ 299]        :                                       
+[ 300]    0300: C6 06 22 00 01                        mov     win_flag, 1
+[ 301]    0305: C3                                    ret
+[ 302]        :                                       
+[ 303]        :                                       
+[ 304]    0306:                                       game_over:
+[ 305]    0306: E8 5B 00                              call    clear_screen
+[ 306]        :                                       
+[ 307]    0309: BA 34 00                              lea     dx, game_start_message
+[ 308]    030C: E8 50 00                              call    print
+[ 309]        :                                       
+[ 310]    030F: BA 00 00                              lea     dx, new_line
+[ 311]    0312: E8 4A 00                              call    print
+[ 312]        :                                       
+[ 313]    0315: BA 03 00                              lea     dx, game_draw
+[ 314]    0318: E8 44 00                              call    print
+[ 315]        :                                       
+[ 316]    031B: BA 00 00                              lea     dx, new_line
+[ 317]    031E: E8 3E 00                              call    print
+[ 318]        :                                       
+[ 319]    0321: BA 25 00                              lea     dx, game_over_message
+[ 320]    0324: E8 38 00                              call    print
+[ 321]        :                                       
+[ 322]    0327: BA 45 00                              lea     dx, player_message
+[ 323]    032A: E8 32 00                              call    print
+[ 324]        :                                       
+[ 325]    032D: BA 23 00                              lea     dx, player
+[ 326]    0330: E8 2C 00                              call    print
+[ 327]        :                                       
+[ 328]    0333: BA 4D 00                              lea     dx, win_message
+[ 329]    0336: E8 26 00                              call    print
+[ 330]        :                                       
+[ 331]    0339: EB 37                                 jmp     fim
+[ 332]        :                                       
+[ 333]        :                                       
+[ 334]    033B:                                       set_game_pointer:
+[ 335]    033B: BE 03 00                              lea     si, game_draw
+[ 336]    033E: BB 19 00                              lea     bx, game_pointer
+[ 337]        :                                       
+[ 338]    0341: B9 09 00                              mov     cx, 9
+[ 339]        :                                       
+[ 340]    0344:                                       loop_1:
+[ 341]    0344: 83 F9 06                              cmp     cx, 6
+[ 342]    0347: 74 07                                 je      add_1
+[ 343]        :                                       
+[ 344]    0349: 83 F9 03                              cmp     cx, 3
+[ 345]    034C: 74 02                                 je      add_1
+[ 346]        :                                       
+[ 347]    034E: EB 05                                 jmp     add_2
+[ 348]        :                                       
+[ 349]    0350:                                       add_1:
+[ 350]    0350: 83 C6 01                              add     si, 1
+[ 351]    0353: EB 00                                 jmp     add_2
+[ 352]        :                                       
+[ 353]    0355:                                       add_2:
+[ 354]    0355: 3E 89 37                              mov     ds:[bx], si
+[ 355]    0358: 83 C6 02                              add     si, 2
+[ 356]        :                                       
+[ 357]    035B: 43                                    inc     bx
+[ 358]    035C: E2 E6                                 loop    loop_1
+[ 359]        :                                       
+[ 360]    035E: C3                                    ret
+[ 361]        :                                       
+[ 362]        :                                       
+[ 363]    035F:                                       print:      ; print dx content
+[ 364]    035F: B4 09                                 mov     ah, 9
+[ 365]    0361: CD 21                                 int     21h
+[ 366]        :                                       
+[ 367]    0363: C3                                    ret
+[ 368]        :                                       
+[ 369]        :                                       
+[ 370]    0364:                                       clear_screen:       ; get and set video mode
+[ 371]    0364: B4 0F                                 mov     ah, 0fh
+[ 372]    0366: CD 10                                 int     10h
+[ 373]        :                                       
+[ 374]    0368: B4 00                                 mov     ah, 0
+[ 375]    036A: CD 10                                 int     10h
+[ 376]        :                                       
+[ 377]    036C: C3                                    ret
+[ 378]        :                                       
+[ 379]        :                                       
+[ 380]    036D:                                       read_keyboard:  ; read keybord and return content in ah
+[ 381]    036D: B4 01                                 mov     ah, 1
+[ 382]    036F: CD 21                                 int     21h
+[ 383]        :                                       
+[ 384]    0371: C3                                    ret
+[ 385]        :                                       
+[ 386]        :                                       
+[ 387]    0372:                                       fim:
+[ 388]    0372: EB FE                                 jmp     fim
+[ 389]        :                                       
+[ 390]        :                                       code ends
+[ 391]        :                                       
+[ 392]        :                                       end start
+[ 393]        :                                       
+ 
+===================================================================================================
+ 
+EXE HEADER - bytes from 0000 to 01FF inclusive.
+
+0000: 4D      -   exe signature (M)
+0001: 5A      -   exe signature (Z)
+0002: 74      -   bytes on last page (l.byte)
+0003: 01      -   bytes on last page (h.byte)
+0004: 03      -   512 byte pages in file (l.byte)
+0005: 00      -   512 byte pages in file (h.byte)
+0006: 02      -   relocations (l.byte)
+0007: 00      -   relocations (h.byte)
+0008: 20      -   paragraphs in header (l.byte)
+0009: 00      -   paragraphs in header (h.byte)
+000A: 00      -   minimum memory (l.byte)
+000B: 00      -   minimum memory (h.byte)
+000C: FF      -   maximum memory (l.byte)
+000D: FF      -   maximum memory (h.byte)
+000E: 07      -   SS - stack segment (l.byte)
+000F: 00      -   SS - stack segment (h.byte)
+0010: 00      -   SP - stack pointer (l.byte)
+0011: 01      -   SP - stack pointer (h.byte)
+0012: 10      -   check sum (l.byte)
+0013: E5      -   check sum (h.byte)
+0014: 00      -   IP - instruction pointer (l.byte)
+0015: 00      -   IP - instruction pointer (h.byte)
+0016: 17      -   CS - code segment (l.byte)
+0017: 00      -   CS - code segment (h.byte)
+0018: 1E      -   relocation table adress (l.byte)
+0019: 00      -   relocation table adress (h.byte)
+001A: 00      -   overlay number (l.byte)
+001B: 00      -   overlay number (h.byte)
+001C: 01      -   signature (l.byte)
+001D: 00      -   signature (h.byte)
+001E: 01      -   relocation table - offset inside segment (l.byte)
+001F: 00      -   relocation table - offset inside segment (h.byte)
+0020: 17      -   relocation table - segment anchor (l.byte)
+0021: 00      -   relocation table - segment anchor (h.byte)
+0022: 06      -   relocation table - offset inside segment (l.byte)
+0023: 00      -   relocation table - offset inside segment (h.byte)
+0024: 17      -   relocation table - segment anchor (l.byte)
+0025: 00      -   relocation table - segment anchor (h.byte)
+0026 to 01FF  -   reserved relocation area  (00) 
+
+
+
+
+===================================================================================================
